@@ -16,20 +16,55 @@ it and understand how testing works .
 
 #include <stdio.h>
 
+
 struct node{
 	struct node * left;
 	int data;
 	struct node *right;
 };
 
+void inorder_wrapper(struct node *root, int *arr, int *i)
+{
+	if (root == NULL || arr == NULL)
+		return;
+	inorder_wrapper(root->left, arr, i);
+	arr[*i] = root->data;
+	(*i)++;
+	inorder_wrapper(root->right, arr, i);
 
+}
 void inorder(struct node *root, int *arr){
-	
+	int k = 0;
+	return inorder_wrapper(root, arr, &k);
 }
-void preorder(struct node *root, int *arr){
-	
+void preorder_wrapper(struct node *root, int *arr, int *i)
+{
+	if (root == NULL || arr == NULL)
+		return;
+	arr[*i] = root->data;
+	(*i)++;
+	preorder_wrapper(root->left, arr, i);
+	preorder_wrapper(root->right, arr, i);
+
 }
-void postorder(struct node *root, int *arr){
-	
+void preorder(struct node *root, int *arr)
+{
+	int k = 0;
+	preorder_wrapper(root, arr, &k);
 }
+
+void postorder_wrapper(struct node *root, int *arr, int *i){
+	if (root == NULL || arr == NULL)
+		return;
+	postorder_wrapper(root->left, arr, i);
+	postorder_wrapper(root->right, arr, i);
+	arr[*i] = root->data;
+	(*i)++;
+}
+void postorder(struct node *root, int *arr)
+{
+	int k = 0;
+	return postorder_wrapper(root, arr, &k);
+}
+
 
