@@ -30,8 +30,59 @@ struct node{
 };
 
 
+int height(struct node *root){
+	if (root == NULL)
+		return 0;
+	else
+	{
+		int left_height = height(root->left);
+		int right_height = height(root->right);
+		if (left_height > right_height)
+			return left_height + 1;
+		else
+
+			return right_height + 1;
+	}
+
+}
+
+void Level_Traversal(struct node* root, int level, int ltr,int *arr,int *i)
+{
+	if (root == NULL)
+		return;
+	if (level == 1)
+	{
+		arr[*i] = root->data;
+		(*i)++;
+	}
+	else if (level > 1)
+	{
+		if (ltr)
+		{
+			Level_Traversal(root->left, level - 1, ltr,arr,i);
+			Level_Traversal(root->right, level - 1, ltr,arr,i);
+		}
+		else
+		{
+			Level_Traversal(root->right, level - 1, ltr,arr,i);
+			Level_Traversal(root->left, level - 1, ltr,arr,i);
+		}
+	}
+}
 
 int* BSTRighttoLeftRows(struct node* root)
 {
-    return NULL;
+	int a[20] = { 0 }, j = 0;
+	if (root == NULL)
+		return NULL;
+	int h = height(root);
+	int i;
+	bool flag = true;
+	for (i = 1; i <= h; i++)
+	{
+		Level_Traversal(root, i, flag,a,&j);
+		flag = !flag;
+	}
+	return a;
 }
+
